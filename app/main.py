@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import os
 
 
 def main():
@@ -11,6 +12,9 @@ def main():
     command = sys.argv[3]
     args = sys.argv[4:]
     #
+    os.system("mkdir -p /yinh/usr/local/bin")
+    os.system("cp /usr/local/bin/docker-explorer /yinh/usr/local/bin")
+    os.chroot("/yinh")
     completed_process = subprocess.run([command, *args], capture_output=True)
     #print(completed_process.stdout.decode("utf-8"))
     sys.stdout.buffer.write(completed_process.stdout)
