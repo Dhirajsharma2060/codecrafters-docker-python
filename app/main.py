@@ -2,7 +2,6 @@ import os
 import subprocess
 import sys
 import tempfile
-import shutil
 import ctypes
 from urllib import request
 import json
@@ -46,12 +45,16 @@ def main():
     command = sys.argv[3]
     args = sys.argv[4:]
     with tempfile.TemporaryDirectory() as tmp_dir:
-        shutil.copy(command, os.path.join(tmp_dir, command[command.rfind("/") + 1 :]))
+        # Copy command file to temporary directory
+        command_filename = os.path.basename(command)
+        with open(os.path.join(tmp_dir, command_filename), "wb") as f:
+            with open(command, "rb") as command_file:
+                f.write(command_file.read())
+
         auth_token = get_auth_token(image)
         blobs = get_image_blobs(image, tag, auth_token)
         pull_image_layers(image, blobs, auth_token, tmp_dir)
-        command = command[command.rfind("/") :]
-        command = command[command.rfind("/") + 1 :]
+        command = command_filename
 
         # Debugging: Print temporary directory contents
         print("Temporary Directory Contents:")
