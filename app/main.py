@@ -82,6 +82,5 @@ def main():
     except Exception as e:
         logging.error(f"Error in main function: {e}")
         sys.exit(1)
-
 if __name__ == "__main__":
     main()
