@@ -52,7 +52,11 @@ def main():
         pull_image_layers(image, blobs, auth_token, tmp_dir)
         command = command[command.rfind("/") :]
         command = command[command.rfind("/") + 1 :]
-        
+
+        # Debugging: Print temporary directory contents
+        print("Temporary Directory Contents:")
+        print(os.listdir(tmp_dir))
+
         # Namespace isolation setup
         unshare = 272
         clone_new_pid = 0x20000000
